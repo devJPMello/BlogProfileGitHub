@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../../utils/api";
-import { PostContainer, PostHeader, PostContent } from "./styles";
+import { PostContainer, PostHeader, PostContent, BackButton } from "./styles";
+
+
 
 interface Issue {
   title: string;
@@ -17,6 +19,11 @@ interface Issue {
 export function Post() {
   const { number } = useParams<{ number: string }>();
   const [issue, setIssue] = useState<Issue | null>(null);
+  const navigate = useNavigate();
+
+  function handleGoBack() {
+    navigate(-1); // volta para a página anterior
+  }
 
   useEffect(() => {
     async function fetchIssue() {
@@ -37,6 +44,7 @@ export function Post() {
 
   return (
     <PostContainer>
+      <BackButton onClick={handleGoBack}>← Voltar</BackButton>
       <PostHeader>
         <h1>{issue.title}</h1>
         <p>
